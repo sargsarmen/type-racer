@@ -37,10 +37,12 @@ export default inject("gameStore")(
                 textSplited={textSplited}
                 currentText={currentText}
                 onTyped={this.onTyped}
+                onStart={this.onStart}
               />
             )}
             {!isStarted && !isFinished && (
-              <div>
+              <div className="start-game">
+                <h3>Improve your typing skills on your own</h3>
                 <input
                   className="btn btn-green-border"
                   type="button"

@@ -8,17 +8,18 @@ export default inject("appStore")(
         const { history } = this.props.appStore.user;
         return (
           <div>
-            <ul>
+            <ul className="history-head">
               <li>Date</li>
               <li>Accuracy</li>
               <li>Speed</li>
             </ul>
             {history.map(h => {
+              const date = new Date(h.date);
               return (
-                <ul>
-                  <li>{h.date}</li>
-                  <li>{h.accuracy}</li>
-                  <li>{h.wpm}</li>
+                <ul className="history-content" key={date.getTime()}>
+                  <li>{date.toLocaleString("en-US")}</li>
+                  <li>{`${h.accuracy} %`}</li>
+                  <li>{`${h.wpm} WPM`}</li>
                 </ul>
               );
             })}

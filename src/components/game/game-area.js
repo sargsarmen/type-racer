@@ -1,13 +1,21 @@
 import React from "react";
 
-export default ({ time, speed, textSplited, currentText, onTyped }) => {
+export default ({
+  time,
+  speed,
+  textSplited,
+  currentText,
+  onTyped,
+  onStart
+}) => {
   return (
     <div>
-      <div>
-        <p>{`${time}`}</p>
-        <p>{`${speed} wpm`}</p>
+      <div className="game-info">
+        <p>{`Time: ${time}`}</p>
+        <p>{`Speed: ${speed} wpm`}</p>
+        <p>{`Accuracy:  ${speed} %`}</p>
       </div>
-      <div>
+      <div className="game-text">
         {textSplited.map(part => {
           let className = "txt";
           if (part.isWrong === true) {
@@ -21,8 +29,16 @@ export default ({ time, speed, textSplited, currentText, onTyped }) => {
           );
         })}
       </div>
-      <div>
+      <div className="game-inp">
         <input type="text" value={currentText} onChange={onTyped} />
+      </div>
+      <div className="text-center">
+        <input
+          className="btn btn-green-border"
+          type="button"
+          value="Restart game"
+          onClick={onStart}
+        />
       </div>
     </div>
   );

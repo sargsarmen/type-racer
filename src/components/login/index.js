@@ -39,7 +39,7 @@ export default inject("loginStore")(
             <div>
               <h1 className="marg-b15">TypeRacer</h1>
               <div>
-                {error && <span>{error}</span>}
+                {error && <span className="eror-text">{error}</span>}
                 <div className="inp-block">
                   <input
                     type="text"
@@ -61,6 +61,7 @@ export default inject("loginStore")(
                     className="btn btn-green"
                     type="button"
                     value="Login"
+                    disabled={error !== null}
                     onClick={this.onLogin}
                   />
                 </div>

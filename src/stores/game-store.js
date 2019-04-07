@@ -46,7 +46,7 @@ class GameStore {
     const accurateWordPercentages =
       (rightCount / (wrongCount + rightCount)) * 100;
 
-    if (accurateWordPercentages !== accurateWordPercentages) {
+    if (Number.isNaN(accurateWordPercentages)) {
       this.speed = 0;
     } else {
       this.speed =
