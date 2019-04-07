@@ -7,8 +7,11 @@
   "license": "ISC",
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build"
   },
+  "homepage": "https://sargsarmen.github.io/type-racer/",
   "keywords": [
     "react",
     "type-racer"
@@ -22,7 +25,8 @@
     "react-router-dom": "5.0.0"
   },
   "devDependencies": {
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "gh-pages": "2.0.1"
   },
   "browserslist": [
     ">0.2%",
