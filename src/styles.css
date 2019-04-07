@@ -1,0 +1,216 @@
+/*========== CSS Reset ==========*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+/*========== End CSS Reset ==========*/
+h1 {
+  font-size: 28px;
+}
+.marg-b15 {
+  margin-bottom: 15px;
+}
+.marg-tb-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.marg-lr-20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.link {
+  text-decoration: none;
+  color: #4a90e2;
+  margin-right: 15px;
+}
+.login > div {
+  text-align: center;
+}
+.inp-block {
+  margin-bottom: 10px;
+}
+.inp-block > input {
+  border: 1px solid silver;
+  padding: 5px;
+}
+.inp-block > input:focus {
+  border: 1px solid silver;
+  outline: none;
+}
+.btn {
+  display: inline-block;
+  text-align: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: 0.4s;
+  padding: 7px 15px;
+  min-width: 100px;
+}
+.btn:hover {
+  background: #84b433;
+  color: #fff;
+}
+.btn:focus {
+  outline: none;
+}
+.btn-green {
+  background: #94c93d;
+  color: #fff;
+}
+.btn-green-border {
+  border: 1px solid #94c93d;
+}
+header {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+}
+.cont-1120 {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* ====================== */
+.app {
+  font-family: sans-serif;
+  text-align: center;
+}
+.current-txt {
+  text-decoration: underline;
+}
+.wrong-txt {
+  color: #803333;
+  background-color: #f0a3a3;
+}
+.right-txt {
+  color: #99cc00;
+}
+.curosre {
+  background-image: url(data:image/gif;base64,R0lGODlhAQAoAPABAERmZv///yH5BAg1AAAAIf8LTkVUU0NBUEUyL…AAACwAAAAAAQAoAAACBYSPqctYACH5BAg1AAAALAAAAAABACgAgP///////wIFhI+py1gAOw==);
+  background-repeat: repeat-y;
+}
