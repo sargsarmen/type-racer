@@ -9,12 +9,13 @@ class GameStore {
   currentText;
   index;
   isStarted;
+  isFinished;
+
   speed;
   accuracy;
   time;
   intervalId;
   numberOfKeystroke;
-  isFinished;
 
   start = text => {
     this.text = text;
@@ -40,7 +41,11 @@ class GameStore {
       this.isFinished = false;
     } else {
       this.isFinished = true;
-      saveUserHistory({ wpm: 25, accuracy: 54.45, date: new Date() });
+      saveUserHistory({
+        wpm: this.speed,
+        accuracy: this.accuracy,
+        date: new Date()
+      });
     }
   };
 
@@ -86,7 +91,7 @@ class GameStore {
         this.stop();
       }
 
-      this.calculateSpeed();
+      //this.calculateSpeed();
     } else {
       this.currentText = text;
     }
