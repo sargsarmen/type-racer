@@ -27,17 +27,21 @@ class GameStore {
     this.isFinished = false;
     this.accuracy = 0;
     this.speed = 0;
-    this.time = 5;
+    this.time = 90;
     this.numberOfKeystroke = 0;
     this.startInterval();
   };
 
-  stop = () => {
+  stop = (forceStop = false) => {
     this.isStarted = false;
-    this.isFinished = true;
     clearInterval(this.intervalId);
 
-    saveUserHistory({ wpm: 25, accuracy: 54.45, date: new Date() });
+    if (forceStop) {
+      this.isFinished = false;
+    } else {
+      this.isFinished = true;
+      saveUserHistory({ wpm: 25, accuracy: 54.45, date: new Date() });
+    }
   };
 
   calculateSpeed = () => {
@@ -98,7 +102,8 @@ decorate(GameStore, {
   time: observable,
   isStarted: observable,
   isFinished: observable,
-  start: action
+  start: action,
+  stop: action
 });
 
 const gameStore = new GameStore();

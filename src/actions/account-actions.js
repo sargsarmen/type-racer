@@ -1,5 +1,7 @@
 import { appStore, loginStore } from "../stores";
 import * as accountService from "../services/account-service";
+import { requestStore } from "../stores";
+import * as requestTypes from "../constants/request-types";
 import history from "../utils/history";
 
 export const login = async request => {
@@ -15,6 +17,7 @@ export const login = async request => {
 };
 
 export const init = async () => {
+  requestStore.setRequestInProcess(requestTypes.INIT_APP, true);
   const token = localStorage.getItem("token");
 
   if (token) {
@@ -24,6 +27,8 @@ export const init = async () => {
       history.push("/");
     }
   }
+
+  requestStore.setRequestInProcess(requestTypes.INIT_APP, false);
 };
 
 export const logout = () => {

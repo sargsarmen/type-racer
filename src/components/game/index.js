@@ -8,6 +8,16 @@ import { startNewGame } from "../../actions/game-actions";
 export default inject("gameStore")(
   observer(
     class Game extends React.Component {
+      componentDidMount() {
+        const { stop } = this.props.gameStore;
+        stop(true);
+      }
+
+      componentWillUnmount() {
+        const { stop } = this.props.gameStore;
+        stop(true);
+      }
+
       onStart = () => {
         startNewGame();
       };
