@@ -89,12 +89,14 @@ class GameStore {
   };
 
   setNewText = (key, keyCode) => {
-    const self = this;
-
-    const currentWord = this.textSplited[this.index];
-    const currentChar = currentWord.word[this.charIndex];
+    const currentWord = this.textSplited[this.index].word;
+    const currentChar = currentWord[this.charIndex];
+    const hasCurrentWordError = currentWord.some(cw => cw.isWrong);
 
     if (isAlphaNumeric(keyCode)) {
+      if (hasCurrentWordError && this.charIndex === currentWord.length) {
+        return;
+      }
       this.currentText += key;
       currentChar.isWrong = currentChar.char !== key;
       if (currentChar.isWrong) {
@@ -111,7 +113,7 @@ class GameStore {
       );
       if (this.charIndex > 0) {
         this.charIndex--;
-        const newCurrentChar = currentWord.word[this.charIndex];
+        const newCurrentChar = currentWord[this.charIndex];
         newCurrentChar.isWrong = null;
       } else {
         if (this.index > 0) {
@@ -123,7 +125,7 @@ class GameStore {
     }
 
     if (isSpace(keyCode)) {
-      if (this.charIndex === currentWord.word.length) {
+      if (this.charIndex === currentWord.length) {
         this.charIndex = 0;
         this.index++;
         if (!this.textSplited.some(w => w.word.some(w => w.isWrong))) {
@@ -137,7 +139,7 @@ class GameStore {
 
     if (
       this.index === this.textSplited.length - 1 &&
-      this.charIndex === currentWord.word.length
+      this.charIndex === currentWord.length
     ) {
       this.stop();
     }
