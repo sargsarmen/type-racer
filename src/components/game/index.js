@@ -24,8 +24,10 @@ export default inject("gameStore")(
 
       onTyped = e => {
         const { setNewText } = this.props.gameStore;
-        setNewText(e.target.value);
+        setNewText(e.key, e.keyCode);
       };
+
+      onChange = e => {};
 
       render() {
         const {
@@ -44,10 +46,12 @@ export default inject("gameStore")(
               <GameArea
                 time={time}
                 speed={speed}
+                accuracy={accuracy}
                 textSplited={textSplited}
                 currentText={currentText}
                 onTyped={this.onTyped}
                 onStart={this.onStart}
+                onChange={this.onChange}
               />
             )}
             {!isStarted && !isFinished && (

@@ -2,34 +2,45 @@ import { observable, action, decorate } from "mobx";
 
 import id from "../utils/id";
 import { saveUserHistory } from "../actions/account-actions";
+import { isAlphaNumeric, isBackspace, isSpace } from "../utils/keyCodeHelpers";
 
+const gameDuration = 120;
 class GameStore {
   text;
   textSplited;
   currentText;
+  charIndex;
   index;
   isStarted;
   isFinished;
-
   speed;
   accuracy;
   time;
+  errorsCount;
+  totalCount;
   intervalId;
-  numberOfKeystroke;
 
   start = text => {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
     this.text = text;
-    this.textSplited = text
-      .split(" ")
-      .map(t => ({ id: id(), text: t, isWrong: null }));
+    this.textSplited = text.split(" ").map(t => ({
+      word: t.split("").map(c => ({ id: id(), char: c, isWrong: null }))
+    }));
+
     this.currentText = "";
+    this.charIndex = 0;
     this.index = 0;
+
     this.isStarted = true;
     this.isFinished = false;
     this.accuracy = 0;
     this.speed = 0;
-    this.time = 90;
-    this.numberOfKeystroke = 0;
+    this.time = gameDuration;
+    this.errorsCount = 0;
+    this.totalCount = 0;
     this.startInterval();
   };
 
@@ -49,18 +60,21 @@ class GameStore {
     }
   };
 
-  calculateSpeed = () => {
-    const wrongCount = this.textSplited.filter(t => t.isWrong === true).length;
-    const rightCount = this.textSplited.filter(t => t.isWrong === false).length;
-    const accurateWordPercentages =
-      (rightCount / (wrongCount + rightCount)) * 100;
-
-    if (Number.isNaN(accurateWordPercentages)) {
-      this.speed = 0;
+  calculateMetrics = () => {
+    if (this.errorsCount === 0 && this.totalCount > 0) {
+      this.accuracy = 100;
+    } else if (this.totalCount === 0) {
+      this.accuracy = 0;
     } else {
-      this.speed =
-        (this.numberOfKeystroke / (120 - this.time)) * accurateWordPercentages;
+      this.accuracy = (
+        ((this.totalCount - this.errorsCount) * 100) /
+        this.totalCount
+      ).toFixed(1);
     }
+    this.speed = (
+      (this.totalCount / 5 - this.errorsCount) /
+      ((gameDuration - this.time) / 60)
+    ).toFixed(0);
   };
 
   startInterval = () => {
@@ -74,27 +88,60 @@ class GameStore {
     }, 1000);
   };
 
-  setNewText = text => {
-    this.numberOfKeystroke++;
+  setNewText = (key, keyCode) => {
+    const self = this;
 
-    const current = this.textSplited[this.index];
-    current.isWrong = !current.text.startsWith(text.trim());
+    const currentWord = this.textSplited[this.index];
+    const currentChar = currentWord.word[this.charIndex];
+
+    if (isAlphaNumeric(keyCode)) {
+      this.currentText += key;
+      currentChar.isWrong = currentChar.char !== key;
+      if (currentChar.isWrong) {
+        this.errorsCount++;
+      }
+      this.charIndex++;
+      this.totalCount++;
+    }
+
+    if (isBackspace(keyCode)) {
+      this.currentText = this.currentText.substring(
+        0,
+        this.currentText.length - 1
+      );
+      if (this.charIndex > 0) {
+        this.charIndex--;
+        const newCurrentChar = currentWord.word[this.charIndex];
+        newCurrentChar.isWrong = null;
+      } else {
+        if (this.index > 0) {
+          this.index--;
+          const newCurrentWord = this.textSplited[this.index];
+          this.charIndex = newCurrentWord.word.length;
+        }
+      }
+    }
+
+    if (isSpace(keyCode)) {
+      if (this.charIndex === currentWord.word.length) {
+        this.charIndex = 0;
+        this.index++;
+        if (!this.textSplited.some(w => w.word.some(w => w.isWrong))) {
+          this.currentText = "";
+        } else {
+          this.currentText += " ";
+        }
+        this.totalCount++;
+      }
+    }
 
     if (
-      !current.isWrong &&
-      current.text.length === text.length - 1 &&
-      text[text.length - 1] === " "
+      this.index === this.textSplited.length - 1 &&
+      this.charIndex === currentWord.word.length
     ) {
-      this.currentText = "";
-      this.index++;
-      if (this.index >= this.textSplited.length) {
-        this.stop();
-      }
-
-      //this.calculateSpeed();
-    } else {
-      this.currentText = text;
+      this.stop();
     }
+    this.calculateMetrics();
   };
 }
 
